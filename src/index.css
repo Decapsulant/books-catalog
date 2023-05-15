@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;1,300;1,400&display=swap');
+/*
+.theme-light {
+  --colors-bg: rgb(243, 229, 208);
+  --colors-text: rgb(44, 24, 16);
+}
+.theme-dark {
+  --colors-bg: rgb(44, 24, 16);
+  --colors-text: rgb(243, 229, 208);
+}
+*/
+
+body {
+  background-color: rgb(244, 240, 237);
+  min-height: 100vh;
+  overflow-y: scroll;
+  font-family: 'Open Sans', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: rgba(44, 24, 16, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(44, 24, 16, 0.5);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}

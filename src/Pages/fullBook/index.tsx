@@ -58,8 +58,8 @@ const FullBook = () => {
     <>
       <div className="container pb-10">
         {isLoading ? (
-          <div className="absolute min-h-screen min-w-full flex">
-            <ClockLoader className="absolute max-h-15 max-w-15 top-1/2 left-1/2" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <ClockLoader size={50} />
           </div>
         ) : (
           <div>

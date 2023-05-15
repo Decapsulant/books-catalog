@@ -38,10 +38,10 @@ export const AuthorBooks = () => {
   }, []);
   return (
     <>
-      <div className="container relative">
+      <div className="container">
         {isLoading ? (
-          <div className="absolute min-h-screen min-w-full flex">
-            <ClockLoader className="absolute max-h-15 max-w-15 top-1/2 left-1/2" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <ClockLoader size={50} />
           </div>
         ) : data && data.items && data.items.length >= 1 ? (
           <div>

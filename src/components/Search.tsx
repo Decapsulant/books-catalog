@@ -33,7 +33,7 @@ export const Search = () => {
   };
 
   return (
-    <label className=" bg-white w-80 flex items-center gap-5 px-2 border-1  py-1 rounded">
+    <label className=" bg-white w-72 flex items-center gap-5 px-2 border-1  py-1 rounded">
       <BiSearch className="pl-1" opacity="0.5" fontSize="20px" color="#2c1810" />
       <input
         ref={inputRef}

@@ -19,7 +19,6 @@ const fetchFullBook = async (id: string) => {
     `https://www.googleapis.com/books/v1/volumes/${id}?key=${API_KEY}`,
   );
 
-  console.log(data);
   return data.volumeInfo;
 };
 

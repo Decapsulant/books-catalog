@@ -39,7 +39,6 @@ const fetchBooks = async function (
   );
   const books = data.items;
   const totalBooks = data.totalItems;
-  console.log(totalBooks);
   return { books, totalBooks };
 };
 const Home = () => {

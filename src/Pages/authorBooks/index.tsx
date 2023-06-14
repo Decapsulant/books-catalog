@@ -1,28 +1,28 @@
 import axios from 'axios';
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { API_KEY } from '../../utils';
-import { Volume } from '../../interface/books';
+import { BASE_URL, updateBooksData } from '../../utils';
+import { Volume } from '../booksInfo';
 import { useQuery } from 'react-query';
 import { ClockLoader } from 'react-spinners';
 import { BookCard } from '../../components/BookCard';
 import NotFound from '../notFound';
+import { useScroll } from '../../hooks/useScroll';
 
 interface FullAuthorBooksResponce {
   items: Volume[];
 }
 
 const fetchAllAuthorBooks = async (name: string) => {
-  const { data } = await axios.get<FullAuthorBooksResponce>(
-    `https://www.googleapis.com/books/v1/volumes?q=inauthor:${name}&key=${API_KEY}`,
-  );
+  const { data } = await axios.get<FullAuthorBooksResponce>(`${BASE_URL}&q=inauthor:${name}`);
+  updateBooksData(data);
   return data;
 };
 
 export const AuthorBooks = () => {
   const { name } = useParams<{ name: string }>();
   const authorName = name ?? '';
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isSuccess } = useQuery(
     ['author', authorName],
     () => fetchAllAuthorBooks(authorName),
     {
@@ -31,11 +31,7 @@ export const AuthorBooks = () => {
     },
   );
 
-  React.useEffect(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
+  useScroll();
   return (
     <>
       <div className="container">
@@ -43,7 +39,7 @@ export const AuthorBooks = () => {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             <ClockLoader size={50} />
           </div>
-        ) : data && data.items && data.items.length >= 1 ? (
+        ) : isSuccess && data.items.length > 0 ? (
           <div>
             <h3 className=" text-center mb-10">
               Books by <span className="italic">{authorName}</span>
@@ -52,11 +48,10 @@ export const AuthorBooks = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-14">
                 {data.items.map((b) => (
                   <BookCard
-                    authors={b.volumeInfo.authors}
                     key={b.id}
                     id={b.id}
                     title={b.volumeInfo.title}
-                    image={b.volumeInfo.imageLinks?.thumbnail}
+                    image={b.volumeInfo.imageLinks.thumbnail}
                     rating={b.volumeInfo.averageRating}
                     categories={b.volumeInfo.categories}
                   />

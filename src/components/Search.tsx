@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setSearchInput } from '../redux/slices/filterSlice';
+import { setSearchInput } from '../redux/slices/booksSlice';
 import { BiSearch } from 'react-icons/bi';
 import { AiOutlineClose } from 'react-icons/ai';
 import { debounce } from 'lodash';

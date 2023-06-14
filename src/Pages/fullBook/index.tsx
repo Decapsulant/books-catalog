@@ -3,16 +3,13 @@ import React from 'react';
 import { API_KEY } from '../../utils';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import { FullBookInfo } from '../../interface/fullBookInfo';
 import { ClockLoader } from 'react-spinners';
 import { marked } from 'marked';
 import NoImage from '../../assets/images/NoImage.jpg';
 import { Button } from '../../components/Button';
 import BookRating from '../../components/BookRating';
 import NotFound from '../notFound';
-interface FullBookInfoResponse {
-  volumeInfo: FullBookInfo;
-}
+import { FullBookInfoResponse } from './fullBookInfo';
 
 const fetchFullBook = async (id: string) => {
   const { data } = await axios.get<FullBookInfoResponse>(

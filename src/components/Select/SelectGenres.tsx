@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select';
 import './reactSelect.css';
-import { setGenre } from '../../redux/slices/filterSlice';
+import { setGenre } from '../../redux/slices/booksSlice';
 import { useDispatch } from 'react-redux';
 
 interface Option {
@@ -10,6 +10,7 @@ interface Option {
 }
 
 const options: Option[] = [
+  { value: 'fiction', label: 'Fiction' },
   { value: 'aesthetics', label: 'Aesthetics' },
   { value: 'archaeology', label: 'Archaeology' },
   { value: 'art', label: 'Art' },
@@ -20,7 +21,6 @@ const options: Option[] = [
   { value: 'design', label: 'Design' },
   { value: 'drama', label: 'Drama' },
   { value: 'fantasy', label: 'Fantasy' },
-  { value: 'fiction', label: 'Fiction' },
   { value: 'horror', label: 'Horror' },
   { value: 'history', label: 'History' },
   { value: 'medical', label: 'Medical' },
@@ -41,6 +41,7 @@ const SelectGenres = () => {
   };
   return (
     <Select
+      defaultValue={options[0]}
       onChange={handleChange}
       options={options}
       placeholder="select genre"

@@ -1,4 +1,4 @@
-export interface FullBookInfo {
+interface FullBookInfo {
   pageCount: number;
   title: string;
   language: string;
@@ -10,4 +10,8 @@ export interface FullBookInfo {
   };
   averageRating?: number;
   categories?: string;
+}
+
+export interface FullBookInfoResponse {
+  volumeInfo: FullBookInfo;
 }

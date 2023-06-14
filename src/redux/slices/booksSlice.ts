@@ -5,20 +5,20 @@ type Option = {
   label: string;
 };
 
-interface FilterState {
+interface BooksState {
   searchValue: string;
   genre: Option | null;
 }
-const initialState: FilterState = {
+const initialState: BooksState = {
   searchValue: '',
   genre: {
-    value: 'general',
-    label: 'general',
+    value: 'fiction',
+    label: 'fiction',
   },
 };
 
 const filterSlice = createSlice({
-  name: 'filter',
+  name: 'books',
   initialState,
   reducers: {
     setSearchInput: (state, action) => {

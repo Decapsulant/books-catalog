@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
-import { API_KEY, BOOKS_IN_PAGE } from '../../utils';
+import { BASE_URL, BOOKS_IN_PAGE, updateBooksData } from '../../utils';
 import { useQuery, useQueryClient } from 'react-query';
-import { Volume } from '../../interface/books';
+import { VolumeResponse } from '../booksInfo';
 import { BookCard } from '../../components/BookCard';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
@@ -10,12 +10,6 @@ import { ClockLoader } from 'react-spinners';
 import { Pagination } from '../../components/Pagination/Pagination';
 import SelectGenres from '../../components/Select/SelectGenres';
 import { Search } from '../../components/Search';
-
-interface VolumeResponce {
-  items: Volume[];
-  totalItems: number;
-  itemsPerPage: number;
-}
 
 const fetchBooks = async function (
   index = 0,
@@ -34,9 +28,10 @@ const fetchBooks = async function (
   if (genre && searchValue !== '') {
     searchBooks = `intitle:${searchValue}+subject:${genre}`;
   }
-  const { data } = await axios.get<VolumeResponce>(
-    `https://www.googleapis.com/books/v1/volumes?q=${searchBooks}&maxResults=${BOOKS_IN_PAGE}&startIndex=${index}&key=${API_KEY}&printType=books`,
+  const { data } = await axios.get<VolumeResponse>(
+    `${BASE_URL}&q=${searchBooks}&maxResults=${BOOKS_IN_PAGE}&startIndex=${index}`,
   );
+  updateBooksData(data);
   const books = data.items;
   const totalBooks = data.totalItems;
   return { books, totalBooks };
@@ -44,8 +39,8 @@ const fetchBooks = async function (
 const Home = () => {
   const [page, setPage] = React.useState(0);
 
-  const searchValue = useSelector((state: RootState) => state.filter.searchValue);
-  const genre = useSelector((state: RootState) => state.filter.genre?.value);
+  const searchValue = useSelector((state: RootState) => state.books.searchValue);
+  const genre = useSelector((state: RootState) => state.books.genre?.value);
   const queryClient = useQueryClient();
 
   //load the page from the beginning
@@ -54,7 +49,7 @@ const Home = () => {
     queryClient.invalidateQueries('books');
   }, [searchValue, queryClient, genre]);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isSuccess } = useQuery(
     ['books', page, searchValue, genre],
     () => fetchBooks(page, searchValue, genre),
     {
@@ -83,20 +78,21 @@ const Home = () => {
           <SelectGenres />
         </div>
         <div className=" flex justify-center">
-          {data && data.books && data.books.length > 0 ? (
+          {isSuccess && data.books.length > 0 ? (
             <div className="flex flex-col gap-10">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-14 gap-x-14 last:mb-10">
                 {data?.books.map((b) => (
                   <BookCard
                     id={b.id}
                     key={b.id}
-                    image={b.volumeInfo.imageLinks?.thumbnail}
+                    image={b.volumeInfo.imageLinks.thumbnail}
                     title={b.volumeInfo.title}
-                    authors={b.volumeInfo.authors}
+                    author={b.volumeInfo.authors[0]}
                     rating={b.volumeInfo.averageRating}
                   />
                 ))}
               </div>
+
               <Pagination
                 totalPages={totalPages}
                 setPage={setPage}

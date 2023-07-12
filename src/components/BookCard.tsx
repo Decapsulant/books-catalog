@@ -24,7 +24,7 @@ export const BookCard: React.FC<BookCardProps> = ({
   return (
     <>
       <div className=" flex justify-center cursor-pointer" onClick={() => navigate(`/book/${id}`)}>
-        <div className="flex justify-center flex-col gap-2 items-center shadow-md min-h-full w-64 px-5 py-10 duration-300 hover:shadow-xl hover:shadow-dark">
+        <div className="flex justify-center flex-col gap-2 items-center bg-white shadow-md min-h-full w-64 px-5 py-10 duration-300  hover:shadow-xl hover:shadow-dark">
           <img className="max-w-full max-h-full w-32 h-44" src={image} alt={title} />
           <h5 className=" text-center my-5 font-semibold">{title}</h5>
           <div className="flex flex-col gap-y-3 justify-start">
